@@ -1,0 +1,36 @@
+﻿@model List<FloridaBikeShop.Models.ViewModels.ListaTablaPropietario>
+@{
+    ViewBag.Title = "ListaPropietarios";
+}
+
+<h2>@ViewBag.Title</h2>
+<br />
+<br />
+<br />
+<div class="row" style="text-align:right; padding:5px;">
+    <a href="/Propietario/NuevoPropietario"class="btn btn-primary">Nuevo</a>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <tr>
+                <th>#</th>
+                <th>Documento</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Telefono</th>
+                <th>Direccion</th>
+            </tr>
+            @foreach (var oElement in Model) 
+            { 
+                <tr>@oElement.Id</tr>
+                <tr>@oElement.Documento</tr>
+                <tr>@oElement.Nombre</tr>
+                <tr>@oElement.Apellido</tr>
+                <tr>@oElement.Telefono</tr>
+                <tr>@oElement.Direccion</tr>
+            }
+        </table>
+    </div>
+</div>
+

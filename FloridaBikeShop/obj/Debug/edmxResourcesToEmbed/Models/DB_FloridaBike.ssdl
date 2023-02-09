@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FloridaBikeShopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Bicicleta">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="tipo" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="marca" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="valor_bicicleta" Type="bigint" Nullable="false" />
+    <Property Name="fecha_compra" Type="date" Nullable="false" />
+    <Property Name="propietario" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Factura">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="servicio" Type="bigint" Nullable="false" />
+    <Property Name="valor" Type="bigint" Nullable="false" />
+    <Property Name="fecha" Type="date" Nullable="false" />
+    <Property Name="cliente_propietario" Type="bigint" Nullable="false" />
+    <Property Name="tecnico" Type="bigint" Nullable="false" />
+    <Property Name="bicicleta" Type="bigint" Nullable="false" />
+    <Property Name="detalles" Type="varchar" MaxLength="5000" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Propietario">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="documento" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="apellido" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="telefono" Type="bigint" Nullable="false" />
+    <Property Name="direccion" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Servicio">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="tipo_servicio" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="valor_servicio" Type="bigint" Nullable="false" />
+    <Property Name="fecha_servicio" Type="date" Nullable="false" />
+    <Property Name="tecnico" Type="bigint" Nullable="false" />
+    <Property Name="bicicleta" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Tecnico">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="documento" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="apellido" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="telefono" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="direccion" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Bicicleta_Servicio">
+    <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
+    <End Role="Bicicleta" Type="Self.Bicicleta" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Servicio">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Bicicleta">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Propietario_Bicicleta">
+    <End Role="Bicicleta" Type="Self.Bicicleta" Multiplicity="1" />
+    <End Role="Propietario" Type="Self.Propietario" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Bicicleta">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Propietario">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Servicio_Factura">
+    <End Role="Factura" Type="Self.Factura" Multiplicity="1" />
+    <End Role="Servicio" Type="Self.Servicio" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Factura">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Servicio">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tecnico_Servicio">
+    <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
+    <End Role="Tecnico" Type="Self.Tecnico" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Servicio">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Tecnico">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FloridaBikeShopModelStoreContainer">
+    <EntitySet Name="Bicicleta" EntityType="Self.Bicicleta" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Factura" EntityType="Self.Factura" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Propietario" EntityType="Self.Propietario" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Servicio" EntityType="Self.Servicio" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tecnico" EntityType="Self.Tecnico" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Bicicleta_Servicio" Association="Self.FK_Bicicleta_Servicio">
+      <End Role="Servicio" EntitySet="Servicio" />
+      <End Role="Bicicleta" EntitySet="Bicicleta" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Propietario_Bicicleta" Association="Self.FK_Propietario_Bicicleta">
+      <End Role="Bicicleta" EntitySet="Bicicleta" />
+      <End Role="Propietario" EntitySet="Propietario" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Servicio_Factura" Association="Self.FK_Servicio_Factura">
+      <End Role="Factura" EntitySet="Factura" />
+      <End Role="Servicio" EntitySet="Servicio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tecnico_Servicio" Association="Self.FK_Tecnico_Servicio">
+      <End Role="Servicio" EntitySet="Servicio" />
+      <End Role="Tecnico" EntitySet="Tecnico" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

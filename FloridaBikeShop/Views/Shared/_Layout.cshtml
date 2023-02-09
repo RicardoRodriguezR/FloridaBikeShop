@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Styles/StylesFloridaBike.css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-static-top" style="background-color:black" id="menu">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <img id="logofloridaBike" src="~/Assets/Logos-Mesa_de_trabajo_1_175x.jpg" />
+            </div>
+            <div class="navbar-collapse collapse" id="menuBusqueda" style="margin-top:6%;">
+
+            </div>
+            <br /><br />
+
+
+
+        </div>
+
+    </div>
+    <div  id="menuTitulos" class="navbar navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-collapse collapse">
+
+            </div>
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("BICICLETAS", "Index", "Home")</li>
+                <li>@Html.ActionLink("ACCESORIOS", "Index", "Home")</li>
+                <li>@Html.ActionLink("INDUMENTARIO", "Index", "Home")</li>
+                <li>@Html.ActionLink("MARCA", "Index", "Home")</li>
+                <li>@Html.ActionLink("TEST", "Index", "Home")</li>
+                <li>@Html.ActionLink("CONTACTO", "Index", "Home")</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

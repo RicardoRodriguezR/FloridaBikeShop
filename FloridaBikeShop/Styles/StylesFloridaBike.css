@@ -14,7 +14,8 @@ menuTitulos {
 }
 
 .navbar-fixed-top {
-    margin-top: 100px;
+    position:static;
+    margin-top: -20px;
     border-top-color: gray;
     background-color: black;
     height:60px;
@@ -52,3 +53,13 @@ menuTitulos {
 .nav > li {
     margin-left: 20px;
 }
+
+.carousel-inner {
+    margin-top: -20px;
+    margin-left:-105px;
+    width:1350px;
+}
+    .carousel-item active {
+        
+        
+    }

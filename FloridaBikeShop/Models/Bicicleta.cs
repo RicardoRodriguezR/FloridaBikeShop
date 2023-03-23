@@ -14,14 +14,21 @@ namespace FloridaBikeShop.Models
     
     public partial class Bicicleta
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Bicicleta()
+        {
+            this.Servicio = new HashSet<Servicio>();
+        }
+    
         public long ID { get; set; }
         public string tipo { get; set; }
         public string marca { get; set; }
         public long valor_bicicleta { get; set; }
         public System.DateTime fecha_compra { get; set; }
-        public long propietario { get; set; }
+        public long fk_propietario { get; set; }
     
-        public virtual Servicio Servicio { get; set; }
-        public virtual Propietario Propietario1 { get; set; }
+        public virtual Propietario Propietario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Servicio> Servicio { get; set; }
     }
 }

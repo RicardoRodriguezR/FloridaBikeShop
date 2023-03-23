@@ -14,6 +14,12 @@ namespace FloridaBikeShop.Models
     
     public partial class Propietario
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Propietario()
+        {
+            this.Bicicleta = new HashSet<Bicicleta>();
+        }
+    
         public long ID { get; set; }
         public string documento { get; set; }
         public string nombre { get; set; }
@@ -21,6 +27,7 @@ namespace FloridaBikeShop.Models
         public long telefono { get; set; }
         public string direccion { get; set; }
     
-        public virtual Bicicleta Bicicleta { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Bicicleta> Bicicleta { get; set; }
     }
 }

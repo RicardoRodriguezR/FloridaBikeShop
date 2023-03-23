@@ -9,14 +9,14 @@
     <Property Name="marca" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="valor_bicicleta" Type="bigint" Nullable="false" />
     <Property Name="fecha_compra" Type="date" Nullable="false" />
-    <Property Name="propietario" Type="bigint" Nullable="false" />
+    <Property Name="fk_propietario" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="Factura">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="servicio" Type="bigint" Nullable="false" />
+    <Property Name="fk_servicio" Type="bigint" Nullable="false" />
     <Property Name="valor" Type="bigint" Nullable="false" />
     <Property Name="fecha" Type="date" Nullable="false" />
     <Property Name="cliente_propietario" Type="bigint" Nullable="false" />
@@ -43,8 +43,8 @@
     <Property Name="tipo_servicio" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="valor_servicio" Type="bigint" Nullable="false" />
     <Property Name="fecha_servicio" Type="date" Nullable="false" />
-    <Property Name="tecnico" Type="bigint" Nullable="false" />
-    <Property Name="bicicleta" Type="bigint" Nullable="false" />
+    <Property Name="fk_tecnico" Type="bigint" Nullable="false" />
+    <Property Name="fk_bicicleta" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -68,50 +68,50 @@
     <Property Name="direccion" Type="varchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <Association Name="FK_Bicicleta_Servicio">
+    <End Role="Propietario" Type="Self.Propietario" Multiplicity="1" />
+    <End Role="Bicicleta" Type="Self.Bicicleta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Propietario">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Bicicleta">
+        <PropertyRef Name="fk_propietario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Factura_Servicio">
     <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
-    <End Role="Bicicleta" Type="Self.Bicicleta" Multiplicity="0..1" />
+    <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Servicio">
         <PropertyRef Name="ID" />
       </Principal>
-      <Dependent Role="Bicicleta">
-        <PropertyRef Name="ID" />
+      <Dependent Role="Factura">
+        <PropertyRef Name="fk_servicio" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Propietario_Bicicleta">
+  <Association Name="FK_Servicio_Bicicleta">
     <End Role="Bicicleta" Type="Self.Bicicleta" Multiplicity="1" />
-    <End Role="Propietario" Type="Self.Propietario" Multiplicity="0..1" />
+    <End Role="Servicio" Type="Self.Servicio" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Bicicleta">
         <PropertyRef Name="ID" />
       </Principal>
-      <Dependent Role="Propietario">
-        <PropertyRef Name="ID" />
+      <Dependent Role="Servicio">
+        <PropertyRef Name="fk_bicicleta" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Servicio_Factura">
-    <End Role="Factura" Type="Self.Factura" Multiplicity="1" />
-    <End Role="Servicio" Type="Self.Servicio" Multiplicity="0..1" />
+  <Association Name="FK_Servicio_Tecnico">
+    <End Role="Tecnico" Type="Self.Tecnico" Multiplicity="1" />
+    <End Role="Servicio" Type="Self.Servicio" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Factura">
+      <Principal Role="Tecnico">
         <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="Servicio">
-        <PropertyRef Name="ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Tecnico_Servicio">
-    <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
-    <End Role="Tecnico" Type="Self.Tecnico" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Servicio">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Tecnico">
-        <PropertyRef Name="ID" />
+        <PropertyRef Name="fk_tecnico" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -123,20 +123,20 @@
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tecnico" EntityType="Self.Tecnico" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Bicicleta_Servicio" Association="Self.FK_Bicicleta_Servicio">
-      <End Role="Servicio" EntitySet="Servicio" />
-      <End Role="Bicicleta" EntitySet="Bicicleta" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Propietario_Bicicleta" Association="Self.FK_Propietario_Bicicleta">
-      <End Role="Bicicleta" EntitySet="Bicicleta" />
       <End Role="Propietario" EntitySet="Propietario" />
+      <End Role="Bicicleta" EntitySet="Bicicleta" />
     </AssociationSet>
-    <AssociationSet Name="FK_Servicio_Factura" Association="Self.FK_Servicio_Factura">
+    <AssociationSet Name="FK_Factura_Servicio" Association="Self.FK_Factura_Servicio">
+      <End Role="Servicio" EntitySet="Servicio" />
       <End Role="Factura" EntitySet="Factura" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Servicio_Bicicleta" Association="Self.FK_Servicio_Bicicleta">
+      <End Role="Bicicleta" EntitySet="Bicicleta" />
       <End Role="Servicio" EntitySet="Servicio" />
     </AssociationSet>
-    <AssociationSet Name="FK_Tecnico_Servicio" Association="Self.FK_Tecnico_Servicio">
-      <End Role="Servicio" EntitySet="Servicio" />
+    <AssociationSet Name="FK_Servicio_Tecnico" Association="Self.FK_Servicio_Tecnico">
       <End Role="Tecnico" EntitySet="Tecnico" />
+      <End Role="Servicio" EntitySet="Servicio" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

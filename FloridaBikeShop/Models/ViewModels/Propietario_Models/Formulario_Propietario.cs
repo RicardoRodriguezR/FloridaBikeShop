@@ -6,11 +6,11 @@ using System.Web;
 
 namespace FloridaBikeShop.Models.ViewModels
 {
-    public class TablaNuevoPropietario
+    public class Formulario_Propietario
     {
-        public long Id { get; set; }
+        public long Id_Propietario { get; set; }
         [Required]
-        [Display(Name="Documento")]
+        [Display(Name = "Documento")]
         public string Documento { get; set; }
         [Required]
         [Display(Name = "Nombre")]
@@ -24,5 +24,5 @@ namespace FloridaBikeShop.Models.ViewModels
         [Required]
         [Display(Name = "Direccion ")]
         public string Direccion { get; set; }
-    }
+    } 
 }

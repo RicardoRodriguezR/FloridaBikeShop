@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using FloridaBikeShop.Models;
 using FloridaBikeShop.Models.ViewModels;
+using FloridaBikeShop.Models.ViewModels.Bicicleta_Models;
 
 namespace FloridaBikeShop.Controllers
 {
@@ -13,18 +14,22 @@ namespace FloridaBikeShop.Controllers
         // GET: Propietario
         public ActionResult ListaPropietarios()
         {
-            List<ListaTablaPropietario>lst;
+            List<Modelo_Propietario>lst;
             using (FloridaBikeShopEntities db = new FloridaBikeShopEntities())
             {
-                lst = (from d in db.Propietario
-                        select new ListaTablaPropietario
+                lst = (from bicicleta in db.Bicicleta join propietario in db.Propietario on bicicleta.fk_propietario equals propietario.ID
+                       select new Modelo_Propietario
                         {
-                            Id = d.ID,
-                            Documento = d.documento,
-                            Nombre = d.nombre,
-                            Apellido = d.apellido,
-                            Telefono = d.telefono,
-                            Direccion = d.direccion
+                            Id = propietario.ID,
+                            Documento = propietario.documento,
+                            Nombre = propietario.nombre,
+                            Apellido = propietario.apellido,
+                            Telefono = propietario.telefono,
+                            Direccion = propietario.direccion,
+                            Tipo = bicicleta.tipo,
+                            Marca = bicicleta.marca,
+                            Valor_Bicicleta = bicicleta.valor_bicicleta
+
                         }).ToList();
             }
                 return View(lst);
@@ -34,77 +39,117 @@ namespace FloridaBikeShop.Controllers
         {
             return View();
         }
+
         [HttpPost]
-        public ActionResult NuevoPropietario(TablaNuevoPropietario model)
+        public ActionResult NuevoPropietario(Formulario_Propietario model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                using (FloridaBikeShopEntities db = new FloridaBikeShopEntities())
                 {
-                    using (FloridaBikeShopEntities db = new FloridaBikeShopEntities())
-                    {
-                        var oTabla = new Propietario();
-                        oTabla.ID = model.Id;
-                        oTabla.documento = model.Documento;
-                        oTabla.nombre = model.Nombre;
-                        oTabla.apellido = model.Apellido;
-                        oTabla.telefono = model.Telefono;
-                        oTabla.direccion = model.Direccion;
+                    var db_Propietario = new Propietario();
+                    db_Propietario.documento = model.Documento;
+                    db_Propietario.nombre = model.Nombre;
+                    db_Propietario.apellido = model.Apellido;
+                    db_Propietario.telefono = model.Telefono;
+                    db_Propietario.direccion = model.Direccion;
 
-                        db.Propietario.Add(oTabla);
-                        db.SaveChanges();
-                    }
-                    return Redirect("Propietario/ListaPropietarios");
+                    db.Propietario.Add(db_Propietario);
+                    db.SaveChanges();
                 }
-                return View(model);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public ActionResult EditarPropietario(int Id)
-        {
-            TablaNuevoPropietario model = new TablaNuevoPropietario();
-            using (FloridaBikeShopEntities db = new FloridaBikeShopEntities())
-            {
-                var oTabla = db.Propietario.Find(Id);
-                model.Documento = oTabla.documento;
-                model.Nombre = oTabla.nombre;
-                model.Apellido = oTabla.apellido;
-                model.Telefono = oTabla.telefono;
-                model.Direccion = oTabla.direccion;
+                return Redirect("~/Propietario/NuevaBicicleta");
             }
             return View(model);
         }
-        [HttpPost]
-        public ActionResult EditarPropietario(TablaNuevoPropietario model)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    using (FloridaBikeShopEntities db = new FloridaBikeShopEntities())
-                    {
-                        var oTabla = db.Propietario.Find(model.Id);
-                        oTabla.documento = model.Documento;
-                        oTabla.nombre = model.Nombre;
-                        oTabla.apellido = model.Apellido;
-                        oTabla.telefono = model.Telefono;
-                        oTabla.direccion = model.Direccion;
 
-                        db.Entry(oTabla).State = System.Data.Entity.EntityState.Modified;
-                        db.SaveChanges();
-                    }
-                    return Redirect("Propietario/Index_Propietario");
-                }
-                return View(model);
-            }
-            catch (Exception ex)
+        [HttpPost]
+        public ActionResult EditarPropietario(Formulario_Propietario model)
+        {
+            if (ModelState.IsValid)
             {
-                throw new Exception(ex.Message);
+                using (FloridaBikeShopEntities db = new FloridaBikeShopEntities())
+                {
+                    var db_Propietario = db.Propietario.Find(model.Id_Propietario);
+                    //var db_Bicicleta = db.Bicicleta.Find(model.Id_Bicicleta);
+
+                    db_Propietario.documento = model.Documento;
+                    db_Propietario.nombre = model.Nombre;
+                    db_Propietario.apellido = model.Apellido;
+                    db_Propietario.telefono = model.Telefono;
+                    db_Propietario.direccion = model.Direccion;
+
+                    //db_Bicicleta.tipo = model.Tipo;
+                    //db_Bicicleta.marca = model.Marca;
+                    //db_Bicicleta.valor_bicicleta = model.Valor_Bicicleta;
+                    //db_Bicicleta.fecha_compra = model.Fecha_compra;
+                    
+                    db.Entry(db_Propietario).State = System.Data.Entity.EntityState.Modified;
+                    //db.Entry(db_Bicicleta).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                }
+                return Redirect("~/Propietario/ListaPropietarios");
             }
+            return View(model);
+        }
+        [HttpGet]
+        public ActionResult EliminarPropietario(int Id)
+        {
+            using (FloridaBikeShopEntities db = new FloridaBikeShopEntities())
+            {
+                var oTabla = db.Propietario.Find(Id);
+                db.Propietario.Remove(oTabla);
+                db.SaveChanges();
+            }
+            return Redirect("~/Propietario/ListaPropietarios");
+        }
+
+        [HttpPost]
+        public ActionResult NuevaBicicleta(Formulario_Bicicleta model)
+        {
+            if (ModelState.IsValid)
+            {
+                using (FloridaBikeShopEntities db = new FloridaBikeShopEntities())
+                {
+                    var db_Bicicleta = new Bicicleta();
+                    var db_Propietario = new Propietario();
+
+                    db_Bicicleta.tipo = model.Tipo;
+                    db_Bicicleta.marca = model.Marca;
+                    db_Bicicleta.valor_bicicleta = model.Valor_Bicicleta;
+                    db_Bicicleta.fecha_compra = model.Fecha_compra;
+                    db_Bicicleta.Propietario = model.Propietario;
+
+                    db.Bicicleta.Add(db_Bicicleta);
+                    db.SaveChanges();
+
+                }
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult EditarBicicleta(Formulario_Bicicleta model)
+        {
+            if (ModelState.IsValid)
+            {
+                using (FloridaBikeShopEntities db = new FloridaBikeShopEntities())
+                {
+                    var db_Bicicleta = db.Bicicleta.Find(model.Id_Bicicleta);
+
+                    db_Bicicleta.tipo = model.Tipo;
+                    db_Bicicleta.marca = model.Marca;
+                    db_Bicicleta.valor_bicicleta = model.Valor_Bicicleta;
+                    db_Bicicleta.fecha_compra = model.Fecha_compra;
+                    db_Bicicleta.Propietario = model.Propietario;
+
+                    db.Entry(db_Bicicleta).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                }
+                return Redirect("~/Propietario/ListaPropietarios");
+            }
+            return View(model);
         }
     }
+
 }
+

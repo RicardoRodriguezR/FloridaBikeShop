@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="FloridaBikeShopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="FloridaBikeShopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Bicicleta">
           <Key>
             <PropertyRef Name="ID" />
@@ -14,14 +14,14 @@
           <Property Name="marca" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="valor_bicicleta" Type="bigint" Nullable="false" />
           <Property Name="fecha_compra" Type="date" Nullable="false" />
-          <Property Name="propietario" Type="bigint" Nullable="false" />
+          <Property Name="fk_propietario" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="Factura">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="servicio" Type="bigint" Nullable="false" />
+          <Property Name="fk_servicio" Type="bigint" Nullable="false" />
           <Property Name="valor" Type="bigint" Nullable="false" />
           <Property Name="fecha" Type="date" Nullable="false" />
           <Property Name="cliente_propietario" Type="bigint" Nullable="false" />
@@ -48,8 +48,8 @@
           <Property Name="tipo_servicio" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="valor_servicio" Type="bigint" Nullable="false" />
           <Property Name="fecha_servicio" Type="date" Nullable="false" />
-          <Property Name="tecnico" Type="bigint" Nullable="false" />
-          <Property Name="bicicleta" Type="bigint" Nullable="false" />
+          <Property Name="fk_tecnico" Type="bigint" Nullable="false" />
+          <Property Name="fk_bicicleta" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -73,50 +73,50 @@
           <Property Name="direccion" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <Association Name="FK_Bicicleta_Servicio">
+          <End Role="Propietario" Type="Self.Propietario" Multiplicity="1" />
+          <End Role="Bicicleta" Type="Self.Bicicleta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Propietario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Bicicleta">
+              <PropertyRef Name="fk_propietario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Factura_Servicio">
           <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
-          <End Role="Bicicleta" Type="Self.Bicicleta" Multiplicity="0..1" />
+          <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Servicio">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Bicicleta">
-              <PropertyRef Name="ID" />
+            <Dependent Role="Factura">
+              <PropertyRef Name="fk_servicio" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Propietario_Bicicleta">
+        <Association Name="FK_Servicio_Bicicleta">
           <End Role="Bicicleta" Type="Self.Bicicleta" Multiplicity="1" />
-          <End Role="Propietario" Type="Self.Propietario" Multiplicity="0..1" />
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Bicicleta">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Propietario">
-              <PropertyRef Name="ID" />
+            <Dependent Role="Servicio">
+              <PropertyRef Name="fk_bicicleta" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Servicio_Factura">
-          <End Role="Factura" Type="Self.Factura" Multiplicity="1" />
-          <End Role="Servicio" Type="Self.Servicio" Multiplicity="0..1" />
+        <Association Name="FK_Servicio_Tecnico">
+          <End Role="Tecnico" Type="Self.Tecnico" Multiplicity="1" />
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Factura">
+            <Principal Role="Tecnico">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Servicio">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tecnico_Servicio">
-          <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
-          <End Role="Tecnico" Type="Self.Tecnico" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Servicio">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Tecnico">
-              <PropertyRef Name="ID" />
+              <PropertyRef Name="fk_tecnico" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -128,80 +128,26 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tecnico" EntityType="Self.Tecnico" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Bicicleta_Servicio" Association="Self.FK_Bicicleta_Servicio">
-            <End Role="Servicio" EntitySet="Servicio" />
-            <End Role="Bicicleta" EntitySet="Bicicleta" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Propietario_Bicicleta" Association="Self.FK_Propietario_Bicicleta">
-            <End Role="Bicicleta" EntitySet="Bicicleta" />
             <End Role="Propietario" EntitySet="Propietario" />
+            <End Role="Bicicleta" EntitySet="Bicicleta" />
           </AssociationSet>
-          <AssociationSet Name="FK_Servicio_Factura" Association="Self.FK_Servicio_Factura">
+          <AssociationSet Name="FK_Factura_Servicio" Association="Self.FK_Factura_Servicio">
+            <End Role="Servicio" EntitySet="Servicio" />
             <End Role="Factura" EntitySet="Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Servicio_Bicicleta" Association="Self.FK_Servicio_Bicicleta">
+            <End Role="Bicicleta" EntitySet="Bicicleta" />
             <End Role="Servicio" EntitySet="Servicio" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tecnico_Servicio" Association="Self.FK_Tecnico_Servicio">
-            <End Role="Servicio" EntitySet="Servicio" />
+          <AssociationSet Name="FK_Servicio_Tecnico" Association="Self.FK_Servicio_Tecnico">
             <End Role="Tecnico" EntitySet="Tecnico" />
+            <End Role="Servicio" EntitySet="Servicio" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="FloridaBikeShopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Bicicleta">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="marca" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="valor_bicicleta" Type="Int64" Nullable="false" />
-          <Property Name="fecha_compra" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="propietario" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Servicio" Relationship="Self.FK_Bicicleta_Servicio" FromRole="Bicicleta" ToRole="Servicio" />
-          <NavigationProperty Name="Propietario1" Relationship="Self.FK_Propietario_Bicicleta" FromRole="Bicicleta" ToRole="Propietario" />
-        </EntityType>
-        <EntityType Name="Factura">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="servicio" Type="Int64" Nullable="false" />
-          <Property Name="valor" Type="Int64" Nullable="false" />
-          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="cliente_propietario" Type="Int64" Nullable="false" />
-          <Property Name="tecnico" Type="Int64" Nullable="false" />
-          <Property Name="bicicleta" Type="Int64" Nullable="false" />
-          <Property Name="detalles" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Servicio1" Relationship="Self.FK_Servicio_Factura" FromRole="Factura" ToRole="Servicio" />
-        </EntityType>
-        <EntityType Name="Propietario">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="documento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="telefono" Type="Int64" Nullable="false" />
-          <Property Name="direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Bicicleta" Relationship="Self.FK_Propietario_Bicicleta" FromRole="Propietario" ToRole="Bicicleta" />
-        </EntityType>
-        <EntityType Name="Servicio">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="tipo_servicio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="valor_servicio" Type="Int64" Nullable="false" />
-          <Property Name="fecha_servicio" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="tecnico" Type="Int64" Nullable="false" />
-          <Property Name="bicicleta" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Bicicleta1" Relationship="Self.FK_Bicicleta_Servicio" FromRole="Servicio" ToRole="Bicicleta" />
-          <NavigationProperty Name="Factura" Relationship="Self.FK_Servicio_Factura" FromRole="Servicio" ToRole="Factura" />
-          <NavigationProperty Name="Tecnico1" Relationship="Self.FK_Tecnico_Servicio" FromRole="Servicio" ToRole="Tecnico" />
-        </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -212,146 +158,149 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
+        <EntityContainer Name="FloridaBikeShopEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Bicicleta" EntityType="FloridaBikeShopModel.Bicicleta" />
+          <EntitySet Name="Factura" EntityType="FloridaBikeShopModel.Factura" />
+          <EntitySet Name="Propietario" EntityType="FloridaBikeShopModel.Propietario" />
+          <EntitySet Name="Servicio" EntityType="FloridaBikeShopModel.Servicio" />
+          <EntitySet Name="Tecnico" EntityType="FloridaBikeShopModel.Tecnico" />
+          <AssociationSet Name="FK_Bicicleta_Servicio" Association="FloridaBikeShopModel.FK_Bicicleta_Servicio">
+            <End Role="Propietario" EntitySet="Propietario" />
+            <End Role="Bicicleta" EntitySet="Bicicleta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Servicio_Bicicleta" Association="FloridaBikeShopModel.FK_Servicio_Bicicleta">
+            <End Role="Bicicleta" EntitySet="Bicicleta" />
+            <End Role="Servicio" EntitySet="Servicio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factura_Servicio" Association="FloridaBikeShopModel.FK_Factura_Servicio">
+            <End Role="Servicio" EntitySet="Servicio" />
+            <End Role="Factura" EntitySet="Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Servicio_Tecnico" Association="FloridaBikeShopModel.FK_Servicio_Tecnico">
+            <End Role="Tecnico" EntitySet="Tecnico" />
+            <End Role="Servicio" EntitySet="Servicio" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Bicicleta">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tipo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="marca" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="valor_bicicleta" Type="Int64" Nullable="false" />
+          <Property Name="fecha_compra" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fk_propietario" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Propietario" Relationship="FloridaBikeShopModel.FK_Bicicleta_Servicio" FromRole="Bicicleta" ToRole="Propietario" />
+          <NavigationProperty Name="Servicio" Relationship="FloridaBikeShopModel.FK_Servicio_Bicicleta" FromRole="Bicicleta" ToRole="Servicio" />
+        </EntityType>
+        <EntityType Name="Factura">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fk_servicio" Type="Int64" Nullable="false" />
+          <Property Name="valor" Type="Int64" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="cliente_propietario" Type="Int64" Nullable="false" />
+          <Property Name="tecnico" Type="Int64" Nullable="false" />
+          <Property Name="bicicleta" Type="Int64" Nullable="false" />
+          <Property Name="detalles" Type="String" Nullable="false" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Servicio" Relationship="FloridaBikeShopModel.FK_Factura_Servicio" FromRole="Factura" ToRole="Servicio" />
+        </EntityType>
+        <EntityType Name="Propietario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="documento" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="apellido" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="Int64" Nullable="false" />
+          <Property Name="direccion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Bicicleta" Relationship="FloridaBikeShopModel.FK_Bicicleta_Servicio" FromRole="Propietario" ToRole="Bicicleta" />
+        </EntityType>
+        <EntityType Name="Servicio">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tipo_servicio" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="valor_servicio" Type="Int64" Nullable="false" />
+          <Property Name="fecha_servicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fk_tecnico" Type="Int64" Nullable="false" />
+          <Property Name="fk_bicicleta" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Bicicleta" Relationship="FloridaBikeShopModel.FK_Servicio_Bicicleta" FromRole="Servicio" ToRole="Bicicleta" />
+          <NavigationProperty Name="Factura" Relationship="FloridaBikeShopModel.FK_Factura_Servicio" FromRole="Servicio" ToRole="Factura" />
+          <NavigationProperty Name="Tecnico" Relationship="FloridaBikeShopModel.FK_Servicio_Tecnico" FromRole="Servicio" ToRole="Tecnico" />
+        </EntityType>
         <EntityType Name="Tecnico">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="documento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Servicio" Relationship="Self.FK_Tecnico_Servicio" FromRole="Tecnico" ToRole="Servicio" />
+          <Property Name="documento" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="apellido" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="direccion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Servicio" Relationship="FloridaBikeShopModel.FK_Servicio_Tecnico" FromRole="Tecnico" ToRole="Servicio" />
         </EntityType>
         <Association Name="FK_Bicicleta_Servicio">
-          <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
-          <End Role="Bicicleta" Type="Self.Bicicleta" Multiplicity="0..1" />
+          <End Type="FloridaBikeShopModel.Propietario" Role="Propietario" Multiplicity="1" />
+          <End Type="FloridaBikeShopModel.Bicicleta" Role="Bicicleta" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Servicio">
+            <Principal Role="Propietario">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Bicicleta">
-              <PropertyRef Name="ID" />
+              <PropertyRef Name="fk_propietario" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Propietario_Bicicleta">
-          <End Role="Bicicleta" Type="Self.Bicicleta" Multiplicity="1" />
-          <End Role="Propietario" Type="Self.Propietario" Multiplicity="0..1" />
+        <Association Name="FK_Servicio_Bicicleta">
+          <End Type="FloridaBikeShopModel.Bicicleta" Role="Bicicleta" Multiplicity="1" />
+          <End Type="FloridaBikeShopModel.Servicio" Role="Servicio" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Bicicleta">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Propietario">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Servicio_Factura">
-          <End Role="Factura" Type="Self.Factura" Multiplicity="1" />
-          <End Role="Servicio" Type="Self.Servicio" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Factura">
-              <PropertyRef Name="ID" />
-            </Principal>
             <Dependent Role="Servicio">
-              <PropertyRef Name="ID" />
+              <PropertyRef Name="fk_bicicleta" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Tecnico_Servicio">
-          <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
-          <End Role="Tecnico" Type="Self.Tecnico" Multiplicity="0..1" />
+        <Association Name="FK_Factura_Servicio">
+          <End Type="FloridaBikeShopModel.Servicio" Role="Servicio" Multiplicity="1" />
+          <End Type="FloridaBikeShopModel.Factura" Role="Factura" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Servicio">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Tecnico">
-              <PropertyRef Name="ID" />
+            <Dependent Role="Factura">
+              <PropertyRef Name="fk_servicio" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="FloridaBikeShopEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Bicicleta" EntityType="Self.Bicicleta" />
-          <EntitySet Name="Factura" EntityType="Self.Factura" />
-          <EntitySet Name="Propietario" EntityType="Self.Propietario" />
-          <EntitySet Name="Servicio" EntityType="Self.Servicio" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <EntitySet Name="Tecnico" EntityType="Self.Tecnico" />
-          <AssociationSet Name="FK_Bicicleta_Servicio" Association="Self.FK_Bicicleta_Servicio">
-            <End Role="Servicio" EntitySet="Servicio" />
-            <End Role="Bicicleta" EntitySet="Bicicleta" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Propietario_Bicicleta" Association="Self.FK_Propietario_Bicicleta">
-            <End Role="Bicicleta" EntitySet="Bicicleta" />
-            <End Role="Propietario" EntitySet="Propietario" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Servicio_Factura" Association="Self.FK_Servicio_Factura">
-            <End Role="Factura" EntitySet="Factura" />
-            <End Role="Servicio" EntitySet="Servicio" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tecnico_Servicio" Association="Self.FK_Tecnico_Servicio">
-            <End Role="Servicio" EntitySet="Servicio" />
-            <End Role="Tecnico" EntitySet="Tecnico" />
-          </AssociationSet>
-        </EntityContainer>
+        <Association Name="FK_Servicio_Tecnico">
+          <End Type="FloridaBikeShopModel.Tecnico" Role="Tecnico" Multiplicity="1" />
+          <End Type="FloridaBikeShopModel.Servicio" Role="Servicio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tecnico">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Servicio">
+              <PropertyRef Name="fk_tecnico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="FloridaBikeShopModelStoreContainer" CdmEntityContainer="FloridaBikeShopEntities">
-          <EntitySetMapping Name="Bicicleta">
-            <EntityTypeMapping TypeName="FloridaBikeShopModel.Bicicleta">
-              <MappingFragment StoreEntitySet="Bicicleta">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="tipo" ColumnName="tipo" />
-                <ScalarProperty Name="marca" ColumnName="marca" />
-                <ScalarProperty Name="valor_bicicleta" ColumnName="valor_bicicleta" />
-                <ScalarProperty Name="fecha_compra" ColumnName="fecha_compra" />
-                <ScalarProperty Name="propietario" ColumnName="propietario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Factura">
-            <EntityTypeMapping TypeName="FloridaBikeShopModel.Factura">
-              <MappingFragment StoreEntitySet="Factura">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="servicio" ColumnName="servicio" />
-                <ScalarProperty Name="valor" ColumnName="valor" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-                <ScalarProperty Name="cliente_propietario" ColumnName="cliente_propietario" />
-                <ScalarProperty Name="tecnico" ColumnName="tecnico" />
-                <ScalarProperty Name="bicicleta" ColumnName="bicicleta" />
-                <ScalarProperty Name="detalles" ColumnName="detalles" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Propietario">
-            <EntityTypeMapping TypeName="FloridaBikeShopModel.Propietario">
-              <MappingFragment StoreEntitySet="Propietario">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="documento" ColumnName="documento" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="apellido" ColumnName="apellido" />
-                <ScalarProperty Name="telefono" ColumnName="telefono" />
-                <ScalarProperty Name="direccion" ColumnName="direccion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Servicio">
-            <EntityTypeMapping TypeName="FloridaBikeShopModel.Servicio">
-              <MappingFragment StoreEntitySet="Servicio">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="tipo_servicio" ColumnName="tipo_servicio" />
-                <ScalarProperty Name="valor_servicio" ColumnName="valor_servicio" />
-                <ScalarProperty Name="fecha_servicio" ColumnName="fecha_servicio" />
-                <ScalarProperty Name="tecnico" ColumnName="tecnico" />
-                <ScalarProperty Name="bicicleta" ColumnName="bicicleta" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="FloridaBikeShopModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
@@ -363,15 +312,65 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Bicicleta">
+            <EntityTypeMapping TypeName="FloridaBikeShopModel.Bicicleta">
+              <MappingFragment StoreEntitySet="Bicicleta">
+                <ScalarProperty Name="fk_propietario" ColumnName="fk_propietario" />
+                <ScalarProperty Name="fecha_compra" ColumnName="fecha_compra" />
+                <ScalarProperty Name="valor_bicicleta" ColumnName="valor_bicicleta" />
+                <ScalarProperty Name="marca" ColumnName="marca" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Factura">
+            <EntityTypeMapping TypeName="FloridaBikeShopModel.Factura">
+              <MappingFragment StoreEntitySet="Factura">
+                <ScalarProperty Name="detalles" ColumnName="detalles" />
+                <ScalarProperty Name="bicicleta" ColumnName="bicicleta" />
+                <ScalarProperty Name="tecnico" ColumnName="tecnico" />
+                <ScalarProperty Name="cliente_propietario" ColumnName="cliente_propietario" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="valor" ColumnName="valor" />
+                <ScalarProperty Name="fk_servicio" ColumnName="fk_servicio" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Propietario">
+            <EntityTypeMapping TypeName="FloridaBikeShopModel.Propietario">
+              <MappingFragment StoreEntitySet="Propietario">
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="apellido" ColumnName="apellido" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="documento" ColumnName="documento" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Servicio">
+            <EntityTypeMapping TypeName="FloridaBikeShopModel.Servicio">
+              <MappingFragment StoreEntitySet="Servicio">
+                <ScalarProperty Name="fk_bicicleta" ColumnName="fk_bicicleta" />
+                <ScalarProperty Name="fk_tecnico" ColumnName="fk_tecnico" />
+                <ScalarProperty Name="fecha_servicio" ColumnName="fecha_servicio" />
+                <ScalarProperty Name="valor_servicio" ColumnName="valor_servicio" />
+                <ScalarProperty Name="tipo_servicio" ColumnName="tipo_servicio" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Tecnico">
             <EntityTypeMapping TypeName="FloridaBikeShopModel.Tecnico">
               <MappingFragment StoreEntitySet="Tecnico">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="documento" ColumnName="documento" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="apellido" ColumnName="apellido" />
-                <ScalarProperty Name="telefono" ColumnName="telefono" />
                 <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="apellido" ColumnName="apellido" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="documento" ColumnName="documento" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

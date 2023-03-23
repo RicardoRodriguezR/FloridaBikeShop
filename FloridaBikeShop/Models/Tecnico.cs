@@ -14,6 +14,12 @@ namespace FloridaBikeShop.Models
     
     public partial class Tecnico
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Tecnico()
+        {
+            this.Servicio = new HashSet<Servicio>();
+        }
+    
         public long ID { get; set; }
         public string documento { get; set; }
         public string nombre { get; set; }
@@ -21,6 +27,7 @@ namespace FloridaBikeShop.Models
         public string telefono { get; set; }
         public string direccion { get; set; }
     
-        public virtual Servicio Servicio { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Servicio> Servicio { get; set; }
     }
 }

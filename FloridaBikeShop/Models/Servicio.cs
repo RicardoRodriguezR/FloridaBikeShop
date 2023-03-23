@@ -14,15 +14,22 @@ namespace FloridaBikeShop.Models
     
     public partial class Servicio
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Servicio()
+        {
+            this.Factura = new HashSet<Factura>();
+        }
+    
         public long ID { get; set; }
         public string tipo_servicio { get; set; }
         public long valor_servicio { get; set; }
         public System.DateTime fecha_servicio { get; set; }
-        public long tecnico { get; set; }
-        public long bicicleta { get; set; }
+        public long fk_tecnico { get; set; }
+        public long fk_bicicleta { get; set; }
     
-        public virtual Bicicleta Bicicleta1 { get; set; }
-        public virtual Factura Factura { get; set; }
-        public virtual Tecnico Tecnico1 { get; set; }
+        public virtual Bicicleta Bicicleta { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Factura> Factura { get; set; }
+        public virtual Tecnico Tecnico { get; set; }
     }
 }

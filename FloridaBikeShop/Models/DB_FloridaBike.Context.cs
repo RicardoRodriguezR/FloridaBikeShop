@@ -25,11 +25,11 @@ namespace FloridaBikeShop.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Bicicleta> Bicicleta { get; set; }
         public virtual DbSet<Factura> Factura { get; set; }
         public virtual DbSet<Propietario> Propietario { get; set; }
         public virtual DbSet<Servicio> Servicio { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Tecnico> Tecnico { get; set; }
     }
 }

@@ -166,8 +166,10 @@
     <Compile Include="Models\Tecnico.cs">
       <DependentUpon>DB_FloridaBike.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ViewModels\ListaTablaPropietario.cs" />
-    <Compile Include="Models\ViewModels\TablaNuevoPropietario.cs" />
+    <Compile Include="Models\ViewModels\Bicicleta_Models\Formulario_Bicicleta.cs" />
+    <Compile Include="Models\ViewModels\Bicicleta_Models\Modelo_Bicicleta.cs" />
+    <Compile Include="Models\ViewModels\Propietario_Models\Modelo_Propietario.cs" />
+    <Compile Include="Models\ViewModels\Propietario_Models\Formulario_Propietario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +216,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\ScriptFloridaBike.js" />
     <Content Include="Styles\StylesFloridaBike.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -232,6 +235,8 @@
     <Content Include="Views\Propietario\NuevoPropietario.cshtml" />
     <Content Include="Views\Propietario\EditarPropietario.cshtml" />
     <Content Include="Views\Propietario\ListaPropietarios.cshtml" />
+    <Content Include="Views\Propietario\NuevaBicicleta.cshtml" />
+    <Content Include="Views\Propietario\EditarBicicleta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

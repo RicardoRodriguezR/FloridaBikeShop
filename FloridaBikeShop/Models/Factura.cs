@@ -15,7 +15,7 @@ namespace FloridaBikeShop.Models
     public partial class Factura
     {
         public long ID { get; set; }
-        public long servicio { get; set; }
+        public long fk_servicio { get; set; }
         public long valor { get; set; }
         public System.DateTime fecha { get; set; }
         public long cliente_propietario { get; set; }
@@ -23,6 +23,6 @@ namespace FloridaBikeShop.Models
         public long bicicleta { get; set; }
         public string detalles { get; set; }
     
-        public virtual Servicio Servicio1 { get; set; }
+        public virtual Servicio Servicio { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿@model List<FloridaBikeShop.Models.ViewModels.ListaTablaPropietario>
+﻿@model List<FloridaBikeShop.Models.ViewModels.Modelo_Propietario>
+
 @{
     ViewBag.Title = "ListaPropietarios";
 }
@@ -6,10 +7,11 @@
 <h2>@ViewBag.Title</h2>
 <br />
 <br />
-<br />
 <div class="row" style="text-align:right; padding:5px;">
     <a href="/Propietario/NuevoPropietario"class="btn btn-primary">Nuevo</a>
 </div>
+<br />
+<br />
 <div class="row">
     <div class="col-md-12">
         <table class="table">
@@ -20,16 +22,28 @@
                 <th>Apellido</th>
                 <th>Telefono</th>
                 <th>Direccion</th>
+                <th>Tipo Bicicleta</th>
+                <th>Marca Bicicleta</th>
+                <th>Valor</th>
             </tr>
-            @foreach (var oElement in Model) 
-            { 
-                <tr>@oElement.Id</tr>
-                <tr>@oElement.Documento</tr>
-                <tr>@oElement.Nombre</tr>
-                <tr>@oElement.Apellido</tr>
-                <tr>@oElement.Telefono</tr>
-                <tr>@oElement.Direccion</tr>
-            }
+            @foreach (var oElement in Model)
+            {
+                <tr>
+                    <td>@oElement.Id</td>
+                    <td>@oElement.Documento</td>
+                    <td>@oElement.Nombre</td>
+                    <td>@oElement.Apellido</td>
+                    <td>@oElement.Telefono</td>
+                    <td>@oElement.Direccion</td>
+                    <td>@oElement.Tipo</td>
+                    <td>@oElement.Marca</td>
+                    <td>@oElement.Valor_Bicicleta</td>
+                    <td>
+                        <a class="btn btn-default" href="~/Propietario/EditarPropietario/@oElement.Id">Editar</a>
+                        <a class="btn btn-danger" href="~/Propietario/EliminarPropietario/@oElement.Id">Eliminar</a>
+                    </td>
+                </tr>
+        }
         </table>
     </div>
 </div>

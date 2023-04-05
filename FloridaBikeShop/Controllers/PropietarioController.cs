@@ -11,13 +11,14 @@ namespace FloridaBikeShop.Controllers
 {
     public class PropietarioController : Controller
     {
-        // GET: Propietario
+        // Listas Para mostrar ----------------------------------
+
         public ActionResult ListaPropietarios()
         {
             List<Modelo_Propietario>lst;
             using (FloridaBikeShopEntities db = new FloridaBikeShopEntities())
             {
-                lst = (from bicicleta in db.Bicicleta join propietario in db.Propietario on bicicleta.fk_propietario equals propietario.ID
+                lst = (from propietario in db.Propietario 
                        select new Modelo_Propietario
                         {
                             Id = propietario.ID,
@@ -25,15 +26,38 @@ namespace FloridaBikeShop.Controllers
                             Nombre = propietario.nombre,
                             Apellido = propietario.apellido,
                             Telefono = propietario.telefono,
-                            Direccion = propietario.direccion,
-                            Tipo = bicicleta.tipo,
-                            Marca = bicicleta.marca,
-                            Valor_Bicicleta = bicicleta.valor_bicicleta
+                            Direccion = propietario.direccion
 
                         }).ToList();
             }
                 return View(lst);
         }
+
+        public ActionResult ListaInformacionCompleta()
+        {
+            List<Modelo_Propietario> lst;
+            using (FloridaBikeShopEntities db = new FloridaBikeShopEntities())
+            {
+                lst = (from bicicleta in db.Bicicleta
+                       join propietario in db.Propietario on bicicleta.fk_propietario equals propietario.ID
+                       select new Modelo_Propietario
+                       {
+                           Id = propietario.ID,
+                           Documento = propietario.documento,
+                           Nombre = propietario.nombre,
+                           Apellido = propietario.apellido,
+                           Telefono = propietario.telefono,
+                           Direccion = propietario.direccion,
+                           Tipo = bicicleta.tipo,
+                           Marca = bicicleta.marca,
+                           Valor_Bicicleta = bicicleta.valor_bicicleta
+
+                       }).ToList();
+            }
+            return View(lst);
+        }
+
+        //CRUD PROPIETARIO -----------------------------------
 
         public ActionResult NuevoPropietario()
         {
@@ -62,6 +86,23 @@ namespace FloridaBikeShop.Controllers
             return View(model);
         }
 
+        public ActionResult EditarPropietario(int Id)
+        {
+            Formulario_Propietario model = new Formulario_Propietario();
+            using (FloridaBikeShopEntities db = new FloridaBikeShopEntities())
+            {
+                var db_Propietario = db.Propietario.Find(Id);
+
+                model.Documento = db_Propietario.documento;
+                model.Nombre = db_Propietario.nombre;
+                model.Apellido = db_Propietario.apellido;
+                model.Telefono = db_Propietario.telefono;
+                model.Direccion = db_Propietario.direccion;
+            }
+            return View(model);
+
+        }
+
         [HttpPost]
         public ActionResult EditarPropietario(Formulario_Propietario model)
         {
@@ -70,21 +111,14 @@ namespace FloridaBikeShop.Controllers
                 using (FloridaBikeShopEntities db = new FloridaBikeShopEntities())
                 {
                     var db_Propietario = db.Propietario.Find(model.Id_Propietario);
-                    //var db_Bicicleta = db.Bicicleta.Find(model.Id_Bicicleta);
 
                     db_Propietario.documento = model.Documento;
                     db_Propietario.nombre = model.Nombre;
                     db_Propietario.apellido = model.Apellido;
                     db_Propietario.telefono = model.Telefono;
                     db_Propietario.direccion = model.Direccion;
-
-                    //db_Bicicleta.tipo = model.Tipo;
-                    //db_Bicicleta.marca = model.Marca;
-                    //db_Bicicleta.valor_bicicleta = model.Valor_Bicicleta;
-                    //db_Bicicleta.fecha_compra = model.Fecha_compra;
                     
                     db.Entry(db_Propietario).State = System.Data.Entity.EntityState.Modified;
-                    //db.Entry(db_Bicicleta).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                 }
                 return Redirect("~/Propietario/ListaPropietarios");
@@ -101,6 +135,36 @@ namespace FloridaBikeShop.Controllers
                 db.SaveChanges();
             }
             return Redirect("~/Propietario/ListaPropietarios");
+        }
+
+        //CRUD BICICLETA ------------------------------------
+
+        public ActionResult NuevaBicicleta()
+        {
+            List<Modelo_Propietario> lst;
+            using (FloridaBikeShopEntities db = new FloridaBikeShopEntities())
+            {
+                lst = (from propietario in db.Propietario
+                       select new Modelo_Propietario
+                       {
+                           Id = propietario.ID,
+                           Nombre = propietario.nombre,
+                           Apellido = propietario.apellido,
+                       }).ToList();
+            }
+
+            List<SelectListItem> item = lst.ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = d.Nombre.ToString() + " " + d.Apellido.ToString(),
+                    Value = d.Id.ToString(),
+                    Selected = false
+                };
+            });
+            ViewBag.items = item; 
+
+            return View();
         }
 
         [HttpPost]
@@ -123,6 +187,23 @@ namespace FloridaBikeShop.Controllers
                     db.SaveChanges();
 
                 }
+                return Redirect("~/Propietario/ListaInformacionCompleta");
+            }
+            return View(model);
+        }
+
+        public ActionResult EditarBicicleta(int Id)
+        {
+            Formulario_Bicicleta model = new Formulario_Bicicleta();
+            using (FloridaBikeShopEntities db = new FloridaBikeShopEntities())
+            {
+                var db_Bicicleta = db.Bicicleta.Find(Id);
+
+                model.Tipo = db_Bicicleta.tipo;
+                model.Marca = db_Bicicleta.marca;
+                model.Valor_Bicicleta = db_Bicicleta.valor_bicicleta;
+                model.Fecha_compra = db_Bicicleta.fecha_compra;
+                model.Propietario = db_Bicicleta.Propietario;
             }
             return View(model);
         }
@@ -145,7 +226,7 @@ namespace FloridaBikeShop.Controllers
                     db.Entry(db_Bicicleta).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                 }
-                return Redirect("~/Propietario/ListaPropietarios");
+                return Redirect("~/Propietario/ListaInformacionCompleta");
             }
             return View(model);
         }

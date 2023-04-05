@@ -24,5 +24,6 @@ namespace FloridaBikeShop.Models.ViewModels.Bicicleta_Models
         [Required]
         [Display(Name = "Prpietario")]
         public Propietario Propietario { get; set; }
+
     }
 }

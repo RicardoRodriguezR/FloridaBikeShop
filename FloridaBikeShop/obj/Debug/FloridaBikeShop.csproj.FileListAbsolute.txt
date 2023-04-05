@@ -83,8 +83,8 @@ C:\Users\ricar\source\repos\FloridaBikeShop\FloridaBikeShop\bin\es\System.Web.Ra
 C:\Users\ricar\source\repos\FloridaBikeShop\FloridaBikeShop\bin\es\System.Web.WebPages.resources.dll
 C:\Users\ricar\source\repos\FloridaBikeShop\FloridaBikeShop\bin\es\System.Web.WebPages.Deployment.resources.dll
 C:\Users\ricar\source\repos\FloridaBikeShop\FloridaBikeShop\bin\es\System.Web.WebPages.Razor.resources.dll
-C:\Users\ricar\source\repos\FloridaBikeShop\FloridaBikeShop\obj\Debug\FloridaBikeShop.csproj.AssemblyReference.cache
 C:\Users\ricar\source\repos\FloridaBikeShop\FloridaBikeShop\obj\Debug\FloridaBikeShop.csproj.CoreCompileInputs.cache
 C:\Users\ricar\source\repos\FloridaBikeShop\FloridaBikeShop\obj\Debug\FloridaBikeShop.csproj.CopyComplete
 C:\Users\ricar\source\repos\FloridaBikeShop\FloridaBikeShop\obj\Debug\FloridaBikeShop.dll
 C:\Users\ricar\source\repos\FloridaBikeShop\FloridaBikeShop\obj\Debug\FloridaBikeShop.pdb
+C:\Users\ricar\source\repos\FloridaBikeShop\FloridaBikeShop\obj\Debug\FloridaBikeShop.csproj.AssemblyReference.cache

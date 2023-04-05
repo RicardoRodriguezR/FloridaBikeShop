@@ -1,0 +1,58 @@
+﻿@model FloridaBikeShop.Models.Servicio
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Servicio</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.tipo_servicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tipo_servicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.valor_servicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.valor_servicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fecha_servicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fecha_servicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bicicleta.tipo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bicicleta.tipo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tecnico.documento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tecnico.documento)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

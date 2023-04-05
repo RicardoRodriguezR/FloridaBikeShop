@@ -46,10 +46,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -128,8 +128,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BicicletasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PropietarioController.cs" />
+    <Compile Include="Controllers\ServiciosController.cs" />
+    <Compile Include="Controllers\TecnicoesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -235,8 +238,22 @@
     <Content Include="Views\Propietario\NuevoPropietario.cshtml" />
     <Content Include="Views\Propietario\EditarPropietario.cshtml" />
     <Content Include="Views\Propietario\ListaPropietarios.cshtml" />
-    <Content Include="Views\Propietario\NuevaBicicleta.cshtml" />
-    <Content Include="Views\Propietario\EditarBicicleta.cshtml" />
+    <Content Include="Views\Propietario\ListaInformacionCompleta.cshtml" />
+    <Content Include="Views\Bicicletas\Create.cshtml" />
+    <Content Include="Views\Bicicletas\Delete.cshtml" />
+    <Content Include="Views\Bicicletas\Details.cshtml" />
+    <Content Include="Views\Bicicletas\Edit.cshtml" />
+    <Content Include="Views\Bicicletas\Index.cshtml" />
+    <Content Include="Views\Tecnicoes\Create.cshtml" />
+    <Content Include="Views\Tecnicoes\Delete.cshtml" />
+    <Content Include="Views\Tecnicoes\Details.cshtml" />
+    <Content Include="Views\Tecnicoes\Edit.cshtml" />
+    <Content Include="Views\Tecnicoes\Index.cshtml" />
+    <Content Include="Views\Servicios\Create.cshtml" />
+    <Content Include="Views\Servicios\Delete.cshtml" />
+    <Content Include="Views\Servicios\Details.cshtml" />
+    <Content Include="Views\Servicios\Edit.cshtml" />
+    <Content Include="Views\Servicios\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

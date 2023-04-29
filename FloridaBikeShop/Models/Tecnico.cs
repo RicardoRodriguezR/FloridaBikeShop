@@ -26,6 +26,9 @@ namespace FloridaBikeShop.Models
         public string apellido { get; set; }
         public string telefono { get; set; }
         public string direccion { get; set; }
+        public string email { get; set; }
+        public string password { get; set; }
+        public Nullable<long> rol { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Servicio> Servicio { get; set; }

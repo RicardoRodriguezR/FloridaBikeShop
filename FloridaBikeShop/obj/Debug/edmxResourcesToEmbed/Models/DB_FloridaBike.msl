@@ -41,6 +41,9 @@
     <EntitySetMapping Name="Propietario">
       <EntityTypeMapping TypeName="FloridaBikeShopModel.Propietario">
         <MappingFragment StoreEntitySet="Propietario">
+          <ScalarProperty Name="rol" ColumnName="rol" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="email" ColumnName="email" />
           <ScalarProperty Name="direccion" ColumnName="direccion" />
           <ScalarProperty Name="telefono" ColumnName="telefono" />
           <ScalarProperty Name="apellido" ColumnName="apellido" />
@@ -65,6 +68,9 @@
     <EntitySetMapping Name="Tecnico">
       <EntityTypeMapping TypeName="FloridaBikeShopModel.Tecnico">
         <MappingFragment StoreEntitySet="Tecnico">
+          <ScalarProperty Name="rol" ColumnName="rol" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="email" ColumnName="email" />
           <ScalarProperty Name="direccion" ColumnName="direccion" />
           <ScalarProperty Name="telefono" ColumnName="telefono" />
           <ScalarProperty Name="apellido" ColumnName="apellido" />

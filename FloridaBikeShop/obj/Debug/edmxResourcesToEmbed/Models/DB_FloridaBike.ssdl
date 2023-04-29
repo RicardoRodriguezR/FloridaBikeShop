@@ -34,6 +34,9 @@
     <Property Name="apellido" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="telefono" Type="bigint" Nullable="false" />
     <Property Name="direccion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+    <Property Name="rol" Type="bigint" />
   </EntityType>
   <EntityType Name="Servicio">
     <Key>
@@ -66,6 +69,9 @@
     <Property Name="apellido" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="telefono" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="direccion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+    <Property Name="rol" Type="bigint" />
   </EntityType>
   <Association Name="FK_Bicicleta_Servicio">
     <End Role="Propietario" Type="Self.Propietario" Multiplicity="1" />

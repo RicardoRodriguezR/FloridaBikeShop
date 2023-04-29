@@ -39,6 +39,9 @@
           <Property Name="apellido" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="telefono" Type="bigint" Nullable="false" />
           <Property Name="direccion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="password" Type="varchar" MaxLength="50" />
+          <Property Name="rol" Type="bigint" />
         </EntityType>
         <EntityType Name="Servicio">
           <Key>
@@ -71,6 +74,9 @@
           <Property Name="apellido" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="telefono" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="direccion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="password" Type="varchar" MaxLength="50" />
+          <Property Name="rol" Type="bigint" />
         </EntityType>
         <Association Name="FK_Bicicleta_Servicio">
           <End Role="Propietario" Type="Self.Propietario" Multiplicity="1" />
@@ -220,6 +226,9 @@
           <Property Name="telefono" Type="Int64" Nullable="false" />
           <Property Name="direccion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Bicicleta" Relationship="FloridaBikeShopModel.FK_Bicicleta_Servicio" FromRole="Propietario" ToRole="Bicicleta" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="rol" Type="Int64" />
         </EntityType>
         <EntityType Name="Servicio">
           <Key>
@@ -246,6 +255,9 @@
           <Property Name="telefono" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="direccion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Servicio" Relationship="FloridaBikeShopModel.FK_Servicio_Tecnico" FromRole="Tecnico" ToRole="Servicio" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="rol" Type="Int64" />
         </EntityType>
         <Association Name="FK_Bicicleta_Servicio">
           <End Type="FloridaBikeShopModel.Propietario" Role="Propietario" Multiplicity="1" />
@@ -341,6 +353,9 @@
           <EntitySetMapping Name="Propietario">
             <EntityTypeMapping TypeName="FloridaBikeShopModel.Propietario">
               <MappingFragment StoreEntitySet="Propietario">
+                <ScalarProperty Name="rol" ColumnName="rol" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="direccion" ColumnName="direccion" />
                 <ScalarProperty Name="telefono" ColumnName="telefono" />
                 <ScalarProperty Name="apellido" ColumnName="apellido" />
@@ -365,6 +380,9 @@
           <EntitySetMapping Name="Tecnico">
             <EntityTypeMapping TypeName="FloridaBikeShopModel.Tecnico">
               <MappingFragment StoreEntitySet="Tecnico">
+                <ScalarProperty Name="rol" ColumnName="rol" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="direccion" ColumnName="direccion" />
                 <ScalarProperty Name="telefono" ColumnName="telefono" />
                 <ScalarProperty Name="apellido" ColumnName="apellido" />

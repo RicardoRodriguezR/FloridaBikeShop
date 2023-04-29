@@ -1,0 +1,74 @@
+﻿@model FloridaBikeShop.Models.Factura
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Factura</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.valor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.valor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cliente_propietario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cliente_propietario)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tecnico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tecnico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.bicicleta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.bicicleta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.detalles)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.detalles)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Servicio.tipo_servicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Servicio.tipo_servicio)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

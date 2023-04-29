@@ -22,6 +22,10 @@
                 <th>Apellido</th>
                 <th>Telefono</th>
                 <th>Direccion</th>
+                <th>Correo</th>
+                <th>Contraseña</th>
+                <th>Rol</th>
+                <th>Acciones</th>
             </tr>
             @foreach (var oElement in Model)
             {
@@ -32,6 +36,9 @@
                     <td>@oElement.Apellido</td>
                     <td>@oElement.Telefono</td>
                     <td>@oElement.Direccion</td>
+                    <td>@oElement.Email</td>
+                    <td>@oElement.Password</td>
+                    <td>@oElement.Rol</td>
                     <td>
                         <a class="btn btn-default" href="~/Propietario/EditarPropietario/@oElement.Id">Editar</a>
                         <a class="btn btn-danger" href="~/Propietario/EliminarPropietario/@oElement.Id">Eliminar</a>

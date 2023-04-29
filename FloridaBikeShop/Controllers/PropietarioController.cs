@@ -26,7 +26,10 @@ namespace FloridaBikeShop.Controllers
                             Nombre = propietario.nombre,
                             Apellido = propietario.apellido,
                             Telefono = propietario.telefono,
-                            Direccion = propietario.direccion
+                            Direccion = propietario.direccion,
+                            Email = propietario.email,
+                            Password = propietario.password,
+                            Rol = propietario.rol.ToString()
 
                         }).ToList();
             }
@@ -48,6 +51,9 @@ namespace FloridaBikeShop.Controllers
                            Apellido = propietario.apellido,
                            Telefono = propietario.telefono,
                            Direccion = propietario.direccion,
+                           Email = propietario.email,
+                           Password = propietario.password,
+                           Rol = propietario.rol.ToString(),
                            Tipo = bicicleta.tipo,
                            Marca = bicicleta.marca,
                            Valor_Bicicleta = bicicleta.valor_bicicleta
@@ -77,6 +83,8 @@ namespace FloridaBikeShop.Controllers
                     db_Propietario.apellido = model.Apellido;
                     db_Propietario.telefono = model.Telefono;
                     db_Propietario.direccion = model.Direccion;
+                    db_Propietario.email = model.Email;
+                    db_Propietario.password = model.Password;
 
                     db.Propietario.Add(db_Propietario);
                     db.SaveChanges();
@@ -98,6 +106,8 @@ namespace FloridaBikeShop.Controllers
                 model.Apellido = db_Propietario.apellido;
                 model.Telefono = db_Propietario.telefono;
                 model.Direccion = db_Propietario.direccion;
+                db_Propietario.email = model.Email;
+                db_Propietario.password = model.Password;
             }
             return View(model);
 
@@ -117,7 +127,9 @@ namespace FloridaBikeShop.Controllers
                     db_Propietario.apellido = model.Apellido;
                     db_Propietario.telefono = model.Telefono;
                     db_Propietario.direccion = model.Direccion;
-                    
+                    db_Propietario.email = model.Email;
+                    db_Propietario.password = model.Password;
+
                     db.Entry(db_Propietario).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                 }

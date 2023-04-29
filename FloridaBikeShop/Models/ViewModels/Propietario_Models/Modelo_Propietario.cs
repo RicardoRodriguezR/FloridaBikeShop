@@ -14,6 +14,10 @@ namespace FloridaBikeShop.Models.ViewModels
         public string Apellido { get; set; }
         public long Telefono { get; set; }
         public string Direccion { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string Rol { get; set; }
+
         public string Tipo { get; set; }
         public string Marca { get; set; }
         public long Valor_Bicicleta { get; set; }

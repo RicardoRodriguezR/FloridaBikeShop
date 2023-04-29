@@ -24,5 +24,14 @@ namespace FloridaBikeShop.Models.ViewModels
         [Required]
         [Display(Name = "Direccion ")]
         public string Direccion { get; set; }
+        [Required]
+        [Display(Name = "Email ")]
+        public string Email { get; set; }
+        [Required]
+        [Display(Name = "Password ")]
+        public string Password { get; set; }
+        [Required]
+        [Display(Name = "Rol ")]
+        public string Rol { get; set; }
     } 
 }
